@@ -15,22 +15,28 @@ class Router{
        }
        else if ($checkedRoute !== false){
            $urlParts = explode ('.' , $checkedRoute['action']);
-           $controllerName = rtrim($urlParts[0] , 'Controller');
+
+           $controllerName = str_replace('Controller','',$urlParts[0]);
+
            $actionName = (isset($urlParts[1]) ? $urlParts[1] : 'index').'Action';
+
            $params = $checkedRoute['params'];
-           if (file_exists('../controllers/' . $controllerName . '.php')){
-               require_once '../controllers/' . $controllerName . '.php' ;
-               $controllerClassName = ucfirst($controllerName);
-               $controllerObject = new $controllerClassName;
-               if (method_exists($controllerObject , $actionName)){
-                   call_user_func_array(array($controllerObject, $actionName), $params);
-               }else {
-                   echo "error: action " . $actionName . "does not exists!";
-               }
+
+           $controllerClassName = ucfirst($controllerName);
+
+           $controllerClassName = 'App\\Controllers\\'.$controllerClassName;
+
+           $controllerObject = new $controllerClassName;
+
+           $controllerClassName = ucfirst($controllerName);
+
+           if (method_exists($controllerObject , $actionName)){
+               call_user_func_array(array($controllerObject, $actionName), $params);
+           }else {
+               echo "error: action " . $actionName . "does not exists!";
            }
-           else{
-               echo "404: controller $controllerName does not exists!";
-           }
+
+
        }else {
            echo "404! Page not found..!";
        }
