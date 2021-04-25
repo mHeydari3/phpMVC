@@ -4,7 +4,6 @@ use App\Controller;
 use App\Models\User as UserModel;
 class User extends Controller {
     public function showAction(){
-        echo 'user controller -> show action';
-        dd(new UserModel);
+        $this->render('user.show'  , ['name' => 'mohammad']);
     }
 }
