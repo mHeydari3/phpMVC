@@ -1,4 +1,5 @@
 <?php
+require_once '../vendor/autoload.php';
 require_once '../config/config.php';
 require_once '../config/helperfunctions.php';
 require_once '../app/router.php';

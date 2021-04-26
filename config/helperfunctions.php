@@ -14,13 +14,3 @@ function clearArray(&$arr , $key=""){
     $arr = $ret;
 }
 
-function autoload($classname){
-    $path = ROOTPATH.strtolower(str_replace('/' , '\\' , $classname)) . '.php';
-    if (is_readable($path)){
-        require_once $path;
-    }else{
-        throw new Exception ("Error file path {{$path}}", 1);
-
-    }
-}
-spl_autoload_register('autoload');
