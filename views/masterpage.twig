@@ -8,8 +8,14 @@
     <title>Document</title>
 </head>
 <body>
+{% import 'helpers.twig' as H %}
+{{ H.partial('header') }}
+
 {% block body %}
 default content...
 {% endblock %}
+
+{{ H.partial('footer') }}
+
 </body>
 </html>
