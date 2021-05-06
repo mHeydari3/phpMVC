@@ -5,6 +5,8 @@ use App\Models\User as UserModel;
 class User extends Controller {
     public function showAction(){
         $this->render('user.show'  , ['name' => 'mohammad']);
+        $usermodel = new UserModel();
+        $usermodel->db->query("INSERT INTO users_tbl (username , password , email) VALUES ('mohammad','heydari','myemail@gmail.com')");
     }
 
     public function showallAction(){
