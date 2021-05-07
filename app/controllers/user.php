@@ -6,7 +6,10 @@ class User extends Controller {
     public function showAction(){
         $this->render('user.show'  , ['name' => 'mohammad']);
         $usermodel = new UserModel();
-        $usermodel->db->query("INSERT INTO users_tbl (username , password , email) VALUES ('mohammad','heydari','myemail@gmail.com')");
+        $usermodel->username = "moha";
+        $usermodel->password = "pass";
+        $usermodel->email = "test@t.com";
+        $usermodel->save();
     }
 
     public function showallAction(){
