@@ -3,7 +3,9 @@ namespace App;
 class Model{
 
     private $_db;
+    private $_isNew = true;
     protected $_fields = [];
+    protected $_primaryKey = 'id';
     protected $_tablename = null;
     function __construct(){
         if ($this->_tablename === null){
