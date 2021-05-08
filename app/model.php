@@ -40,6 +40,13 @@ class Model{
         }
     }
 
+    public function delete(){
+        $pk = $this->_primaryKey;
+        $query = "DELETE FROM {$this->_tablename} WHERE `{$pk}` = :{$pk}" ;
+        return $this->db()->prepare($query)->execute([$pk=>$this->_fields[$pk]]);
+    }
+
+
     protected function db(){
         return $this->_db;
     }
