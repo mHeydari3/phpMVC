@@ -6,10 +6,8 @@ class User extends Controller {
     public function showAction(){
         $this->render('user.show'  , ['name' => 'mohammad']);
         $usermodel = new UserModel();
-        $usermodel->username = "moha";
-        $usermodel->password = "pass";
-        $usermodel->email = "test@t.com";
-        $usermodel->save();
+        $usermodel->id = 5;
+        $usermodel->delete();
     }
 
     public function showallAction(){
