@@ -21,11 +21,19 @@ function wrapValue($var , $wraperStart = '`' , $wraperEnd = null){
 
     if(is_array($var)){
         foreach ($var as $i=>$v){
-            $var[$i] = $wraperStart . $var[$i] . $wraperEnd;
+            if($wraperEnd!=='var'){
+                $var[$i] = $wraperStart . $var[$i] . $wraperEnd;
+            }else{
+                $var[$i] = $wraperStart . $var[$i] . $wraperStart . '=:' . $var[$i];
+            }
         }
         return $var;
     }else{
-        return $wraperStart.$var.$wraperEnd;
+        if ($wraperEnd!=="var"){
+            return $wraperStart.$var.$wraperEnd;
+        }else{
+            return $wraperStart.$var.$wraperStart  . ':=' . $var;
+        }
     }
 }
 
