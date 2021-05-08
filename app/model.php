@@ -28,9 +28,21 @@ class Model{
     }
 
     public function save(){
-        $qMarks = implode(', ' , wrapValue(array_keys($this->_fields) , ':' , ' ')  );
-        $variables = implode(', ' , wrapValue(array_keys($this->_fields))  ) ;
-        $query = "INSERT INTO {$this->_tablename} ({$variables}) VALUES ({$qMarks})" ;
+        if ($this->_isNew !== true){
+            $keys = array_keys($this->_fields);
+
+            $qMarks = implode(', ' , wrapValue($keys , ':' , ' ')  );
+            $variables = implode(', ' , wrapValue($keys)  ) ;
+            $query = "INSERT INTO {$this->_tablename} ({$variables}) VALUES ({$qMarks})" ;
+        }else {
+            $keys = $this->_fields;
+            $pk = $this->_primaryKey;
+            $pkVal = $keys[$this->_primaryKey] ;
+            unset($keys[$pk]) ;
+            $variables = implode(', ' , wrapValue(array_keys($keys) , '`' , 'var' ) ) ;
+            $query = "UPDATE {$this->_tablename} SET {$variables} WHERE `{$pk}`  = :{$pk} ";
+
+        }
 
         $result = $this->db()->prepare($query);
         $result->execute($this->_fields);
@@ -38,6 +50,11 @@ class Model{
         if ($this->dbError($result ) ) {
             throw new \Exception("Save into database Error!<pre>" . var_dump($result->errorInfo()) . "</pre>" , 1);
         }
+
+        if($result){
+            $this->_isNew = false;
+        }
+        return $result;
     }
 
     public function delete(){
