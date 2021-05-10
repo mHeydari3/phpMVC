@@ -64,6 +64,7 @@ class Model{
         $variables = ltrim(ltrim( implode(' ' , $variables)   , ' AND') , ' OR');
         $query     = "SELECT * FROM {$this->_tablename} WHERE {$variables}" ;
         $h = $this->db()->prepare($query);
+
         $h->execute($conds);
         return $h->fetchAll();
     }
@@ -105,7 +106,7 @@ class Model{
     }
 
     public static function table($tablename){
-        $_class = '\\App\\' . ucfirst($tablename);
+        $_class = '\\App\\Models\\' . ucfirst($tablename);
         return new $_class;
     }
 
@@ -135,7 +136,7 @@ class Model{
             }
         }
         else if (substr($funcname , 0 , strlen('find'))  === 'find' ) {
-            foreach ($args[0] as $prop => $value) {
+            foreach ($params[0] as $prop => $value) {
                 if (!in_array($prop , array_keys($this->_fields))){
                     throw new \Exception("Property {{$prop}} does not supported by {{__CLASS__}}");
                 }
