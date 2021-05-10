@@ -60,13 +60,14 @@ class Model{
             $comb = ' ' . (isset($conf[2]) ? strtoupper($conf[2]) : 'AND') . ' ';
             $op   = isset($conf[1]) ? $conf[1] : '=' ;
             $variables[] = $comb . wrapValue($prop) . $op . ':' . $prop ;
+            $conds[$prop] = $conf[0];
         }
         $variables = ltrim(ltrim( implode(' ' , $variables)   , ' AND') , ' OR');
         $query     = "SELECT * FROM {$this->_tablename} WHERE {$variables}" ;
         $h = $this->db()->prepare($query);
 
         $h->execute($conds);
-        return $h->fetchAll();
+        return $this->_convertRowToObject($h->fetchAll () ) ;
     }
 
     public function save(){
