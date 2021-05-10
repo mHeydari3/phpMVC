@@ -28,6 +28,21 @@ class Model{
         }
     }
 
+    public function _convertRowToObject($res){
+        $objs = [];
+        foreach ($res as $index => $row) {
+            $className = get_class($this);
+
+            $obj = new $className ();
+
+            $fields = array_keys($obj->getFields());
+            foreach ($fields as $fieldName){
+                $obj->$fieldName = $row[$fieldName];
+            }
+            $objs[] = $obj;
+        }
+        return $objs;
+    }
 
     public function save(){
         if ($this->_isNew !== true){
