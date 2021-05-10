@@ -43,7 +43,14 @@ class Model{
         }
         return $objs;
     }
-
+    public function findBy($val , $prop) {
+        $qMarks = implode (', '    ,   wrapValue(array_keys($this->_fields)  , ':' , ''   )   ) ;
+        $variables = implode(', ' , wrapValue(array_keys($this->_fields) )  );
+        $query = "SELECT * FROM {$this->_tablename} WHERE `{$prop}` = :{$prop} " ;
+        $h = $this->db()->prepare($query);
+        $h->execute([$prop => $val]);
+        return $this->_convertRowToObject($h->fetchAll () ) ;
+    }
     public function save(){
         if ($this->_isNew !== true){
             $keys = array_keys($this->_fields);
