@@ -125,6 +125,12 @@ class Model{
             $this->_fields[$var] = $val;
         }
     }
+    public function __get($var){
+        if (in_array($var , array_keys($this->_fields) ) ) {
+            return $this->_fields[$var];
+
+        }
+    }
 
     public function __call($func , $params){
         $funcname = $func;
