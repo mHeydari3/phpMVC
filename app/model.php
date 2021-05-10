@@ -52,6 +52,22 @@ class Model{
         $h->execute([$prop => $val]);
         return $this->_convertRowToObject($h->fetchAll () ) ;
     }
+
+    public function select($conds){
+        $variables = [];
+        foreach($conds as $prop=>$conf){
+            $conf = is_array($conf ) ? $conf : [$conf];
+            $comb = ' ' . (isset($conf[2]) ? strtoupper($conf[2]) : 'AND') . ' ';
+            $op   = isset($conf[1]) ? $conf[1] : '=' ;
+            $variables[] = $comb . wrapValue($prop) . $op . ':' . $prop ;
+        }
+        $variables = ltrim(ltrim( implode(' ' , $variables)   , ' AND') , ' OR');
+        $query     = "SELECT * FROM {$this->_tablename} WHERE {$variables}" ;
+        $h = $this->db()->prepare($query);
+        $h->execute($conds);
+        return $h->fetchAll();
+    }
+
     public function save(){
         if ($this->_isNew !== true){
             $keys = array_keys($this->_fields);
@@ -116,8 +132,6 @@ class Model{
                 $params[] = $prop ;
 
                 return call_user_func_array(array($this,'findBy'),  $params);
-
-
             }
         }
     }
