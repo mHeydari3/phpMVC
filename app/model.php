@@ -134,6 +134,22 @@ class Model{
                 return call_user_func_array(array($this,'findBy'),  $params);
             }
         }
+        else if (substr($funcname , 0 , strlen('find'))  === 'find' ) {
+            foreach ($args[0] as $prop => $value) {
+                if (!in_array($prop , array_keys($this->_fields))){
+                    throw new \Exception("Property {{$prop}} does not supported by {{__CLASS__}}");
+                }
+            }
+
+            return call_user_func_array(array($this,'select'),$params);
+
+
+        }
+
+
+
+
+
     }
 
     /**
