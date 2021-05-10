@@ -1,12 +1,13 @@
 <?php
 namespace App\Controllers;
 use App\Controller;
+use App\Model;
 use App\Models\User as UserModel;
 class User extends Controller {
     public function showAction(){
         $this->render('user.show'  , ['name' => 'mohammad']);
-        $usermodel = new UserModel();
-        $users = $usermodel->findByEmail('test@t.com');
+        $users = Model::table('user')->find(['email' => 'z' , 'username' => ['xw' , '<>' , 'OR'] ] );
+
         d('users:');
         dd($users);
     }
