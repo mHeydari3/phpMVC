@@ -4,6 +4,7 @@ class Model{
 
     private $_db;
     private $_isNew = true;
+    private $_class ;
     protected $_fields = [];
     protected $_primaryKey = 'id';
     protected $_tablename = null;
@@ -87,6 +88,10 @@ class Model{
         return $this->db()->prepare($query)->execute([$pk=>$this->_fields[$pk]]);
     }
 
+    public static function table($tablename){
+        $_class = '\\App\\' . ucfirst($tablename);
+        return new $_class;
+    }
 
     protected function db(){
         return $this->_db;
