@@ -7,6 +7,7 @@ class Model{
     protected $_fields = [];
     protected $_primaryKey = 'id';
     protected $_tablename = null;
+
     function __construct(){
         if ($this->_tablename === null){
             $this->_tablename = Env::get('database')['table_perfix'] . strtolower(ltrim(get_class($this) , 'App\\'));
@@ -26,6 +27,7 @@ class Model{
             dd ($e->getMessage());
         }
     }
+
 
     public function save(){
         if ($this->_isNew !== true){
@@ -78,4 +80,28 @@ class Model{
             $this->_fields[$var] = $val;
         }
     }
+
+    public function __call($func , $params){
+        $funcname = $func;
+        if (substr($funcname , 0 , strlen('findBy')) === 'findBy') {
+            $prop = strtolower( ltrim($funcname , 'findBy') ) ;
+            if ( in_array($prop , array_keys($this->_fields) ) ) {
+                $params[] = $prop ;
+
+                return call_user_func_array(array($this,'findBy'),  $params);
+
+
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields(): array
+    {
+        return $this->_fields;
+    }
+
+
 }
