@@ -6,8 +6,9 @@ class User extends Controller {
     public function showAction(){
         $this->render('user.show'  , ['name' => 'mohammad']);
         $usermodel = new UserModel();
-        $usermodel->id = 5;
-        $usermodel->delete();
+        $users = $usermodel->findByEmail('test@t.com');
+        d('users:');
+        dd($users);
     }
 
     public function showallAction(){
