@@ -6,10 +6,11 @@ use App\Models\User as UserModel;
 class User extends Controller {
     public function showAction(){
         $this->render('user.show'  , ['name' => 'mohammad']);
-        $users = Model::table('user')->find(['email' => 'z' , 'username' => ['xw' , '<>' , 'OR'] ] );
+        $users = Model::table('user')->find(['id' => '1'] )[0];
+        $users->username = 'the name is changed';
+        $users->save();
 
-        d('users:');
-        dd($users);
+
     }
 
     public function showallAction(){
