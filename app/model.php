@@ -3,7 +3,6 @@ namespace App;
 class Model{
 
     private $_db;
-    private $_isNew = true;
     private $_class ;
     protected $_fields = [];
     protected $_primaryKey = 'id';
@@ -128,8 +127,10 @@ class Model{
     public function __get($var){
         if (in_array($var , array_keys($this->_fields) ) ) {
             return $this->_fields[$var];
-
         }
+    }
+    private function _isNew(){
+        return ($this->_fields[$this->_primaryKey] === null) ? true : false;
     }
 
     public function __call($func , $params){
