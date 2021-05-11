@@ -5,6 +5,11 @@ class User extends Model{
     protected $_tablename = 'users_tbl';
     public function __construct(){
         parent::__construct();
-        $this->_fields = ['id'=>'NULL' , 'username' => null , 'password' => null , 'email' => null ];
+        $this->setInitialFields([
+            'id' => ['default'=>null , 'editable' => true , 'readable' => true , 'rule' => 'required|max:10'],
+            'username' => ['readable' => false , 'rule' => 'required'],
+            'password' ,
+            'email'
+        ]);
     }
 }
