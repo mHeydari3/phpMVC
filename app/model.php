@@ -4,7 +4,10 @@ class Model{
 
     private $_db;
     private $_class ;
-    protected $_fields = [];
+    private $_readables = [] ;
+    private $_editables = [] ;
+    private $_rules = [] ;
+    private $_fields = [];
     protected $_primaryKey = 'id';
     protected $_tablename = null;
 
@@ -70,7 +73,7 @@ class Model{
     }
 
     public function save(){
-        if ($this->_isNew !== true){
+        if ($this->_isNew() !== true){
             $keys = array_keys($this->_fields);
 
             $qMarks = implode(', ' , wrapValue($keys , ':' , ' ')  );
@@ -91,10 +94,6 @@ class Model{
 
         if ($this->dbError($result ) ) {
             throw new \Exception("Save into database Error!<pre>" . var_dump($result->errorInfo()) . "</pre>" , 1);
-        }
-
-        if($result){
-            $this->_isNew = false;
         }
         return $result;
     }
@@ -131,6 +130,21 @@ class Model{
     }
     private function _isNew(){
         return ($this->_fields[$this->_primaryKey] === null) ? true : false;
+    }
+
+    protected function setInitialFields($props) {
+        foreach($props as $key => $conf) {
+            if(is_int($key)){
+                $key = $conf;
+                $conf = [] ;
+            }
+
+            $this->_readables[$key] = isset($conf['readable']) ? $conf['readable'] : true ;
+            $this->_editables[$key] = isset($conf['editable']) ? $conf['editable'] : true ;
+            $this->_rules[$key]     = isset($conf['rule'])     ? $conf['rule']     : '';
+            $this->_fields[$key]    = isset($conf['default'])  ? $conf['rule']     : null ;
+
+        }
     }
 
     public function __call($func , $params){
