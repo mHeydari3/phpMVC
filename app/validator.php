@@ -3,6 +3,23 @@ class Validator {
     private static $_errors ;
 
 
+
+    public static function check($fields , $rules){
+        self::$_errors = [] ;
+        foreach ($fields as $field => $value ) {
+            $rule = $rules[$field] ;
+            if (!($rule == '')) {
+                $chk = self::_checkValid ($value , $rule , $field );
+                if ($chk !== true) {
+                    self::$_errors[$field] = $chk ;
+                }
+            }
+        }
+
+
+        return self::$_errors ;
+    }
+
     private function _checkValid($value , $rules , $field) {
         $rules = explode ('|' , $rules );
         $class = get_class();
@@ -25,7 +42,6 @@ class Validator {
 
 
     }
-
 
 
     private static function _isRequired($field , $value){
