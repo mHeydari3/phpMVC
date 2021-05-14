@@ -119,15 +119,20 @@ class Model{
     }
 
     public function __set($var , $val){
-        if (in_array($var , array_keys($this->_fields) ) ){
-            $this->_fields[$var] = $val;
+        if (in_array($var , array_keys($this->_fields))  && $this->_editables[$var] === true     ){
+            return $this->_fields[$var] = $val;
         }
+        throw new \Exception("Property $var is not editable"  , 1) ;
     }
+
+
     public function __get($var){
-        if (in_array($var , array_keys($this->_fields) ) ) {
+        if (in_array($var , array_keys($this->_fields))  && $this->_readables[$var] === true ) {
             return $this->_fields[$var];
         }
+        throw new \Exception ("property $var is not readable" , 1) ;
     }
+
     private function _isNew(){
         return ($this->_fields[$this->_primaryKey] === null) ? true : false;
     }
