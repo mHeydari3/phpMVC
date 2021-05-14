@@ -152,6 +152,14 @@ class Model{
         }
     }
 
+    public function validate() {
+        $errors = Validator::check($this->_fields , $this->_rules) ;
+        return (count($errors) === 0) ? true : $errors;
+    }
+
+
+
+
     public function __call($func , $params){
         $funcname = $func;
         if (substr($funcname , 0 , strlen('findBy')) === 'findBy') {
