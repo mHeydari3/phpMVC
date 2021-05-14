@@ -6,8 +6,12 @@ use App\Models\User as UserModel;
 class User extends Controller {
     public function showAction(){
         $this->render('user.show'  , ['name' => 'mohammad']);
-        $users = Model::table('user')->find(['id' => '1'] )[0];
-        $users->username = 'the name is changed';
+        //$users = Model::table('user')->find(['id' => '1'] )[0];
+        $users = Model::table('user') ;
+        $users->username = 'new name';
+        $users->password = 'passss';
+        $users->email = "test@t.com" ;
+
         $users->save();
 
 

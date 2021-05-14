@@ -73,19 +73,21 @@ class Model{
     }
 
     public function save(){
-        if ($this->_isNew() !== true){
-            $keys = array_keys($this->_fields);
 
-            $qMarks = implode(', ' , wrapValue($keys , ':' , ' ')  );
-            $variables = implode(', ' , wrapValue($keys)  ) ;
-            $query = "INSERT INTO {$this->_tablename} ({$variables}) VALUES ({$qMarks})" ;
-        }else {
+        if ($this->_isNew() !== true){
             $keys = $this->_fields;
             $pk = $this->_primaryKey;
             $pkVal = $keys[$this->_primaryKey] ;
             unset($keys[$pk]) ;
             $variables = implode(', ' , wrapValue(array_keys($keys) , '`' , 'var' ) ) ;
             $query = "UPDATE {$this->_tablename} SET {$variables} WHERE `{$pk}`  = :{$pk} ";
+        }else {
+            $keys = array_keys($this->_fields);
+
+            $qMarks = implode(', ' , wrapValue($keys , ':' , ' ')  );
+            $variables = implode(', ' , wrapValue($keys)  ) ;
+            $query = "INSERT INTO {$this->_tablename} ({$variables}) VALUES ({$qMarks})" ;
+
 
         }
 
