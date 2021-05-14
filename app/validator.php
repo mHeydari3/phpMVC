@@ -27,4 +27,25 @@ class Validator {
     }
 
 
+
+    private static function _isRequired($field , $value){
+        $err = sprintf("%s is required" , $field) ;
+        return ($value === null || trim($value) === '') ? $err : true;
+    }
+
+    private static function _isNumber ($field , $value){
+        $err = sprintf("%s is not a number" , $field) ;
+        return (!is_numeric($value)) ? $err : true;
+    }
+
+    private static function _isMax($field , $value , $max) {
+        $err = sprintf("%s length must be less than %d" , $field , $max) ;
+        return (strlen($value) > $max ) ? $err : true;
+    }
+
+
+
+
+
+
 }
