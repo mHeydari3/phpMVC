@@ -1,4 +1,4 @@
 <?php
     // we will manage routes here
-    Router::register('/' , 'userController.show');
-    Router::register('all' , 'userController.showall');
+    App\Router::register('/' , 'userController.show');
+    App\Router::register('all' , 'userController.showall');
