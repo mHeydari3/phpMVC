@@ -1,4 +1,5 @@
 <?php
+namespace App;
 class Router{
 
     private static $_ROUTES = array(),
