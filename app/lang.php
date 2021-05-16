@@ -2,7 +2,8 @@
 class Lang{
     public static function get($path) {
         $path = explode('.' , $path) ;
-        $lang = 'en' ;
+
+        $lang = Session::get('lang' , LANGDEFAULT) ;
         $langfilepath = LANGPATH . $lang . '.json' ;
         if (!is_readable($langfilepath)) {
             $langfilepath = LANGPATH.LANGDEFAULT.'.json';
