@@ -1,0 +1,7 @@
+{
+  "validator" : {
+    "require" : "%s is required",
+    "number"  : "%s is not a number" ,
+    "max"     : "%s length must be less than %d"
+  }
+}
